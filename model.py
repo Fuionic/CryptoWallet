@@ -6,11 +6,10 @@ class Transaction_type(str, Enum):
     SELL = "sell"
 
 class Transaction(BaseModel):
-    id : int
     transaction_type : Transaction_type
     crypto_name : str
     price_per_unit : float
-    quantity : int
+    quantity : float
 
 
 class User(BaseModel):

@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Float, Enum
 from enum import Enum as PyEnum
 
-db_url = "postgresql://{credential}@localhost:5432/Wallet"
+db_url = "postgresql://postgres:{DATABASE_PASSWORD}@localhost:5432/Wallet"
 
 engine = create_engine(db_url)
 session = sessionmaker(autocommit = False, autoflush = False, bind = engine)
@@ -24,7 +24,7 @@ class Transaction(Base):
     transaction_type = Column(Enum(Transaction_type))
     crypto_name = Column(String)
     price_per_unit = Column(Float)
-    quantity = Column(Integer)
+    quantity = Column(Float)
 
 
 class User(Base):

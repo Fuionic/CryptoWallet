@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Portfolio Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #07111f;
+            --bg-surface: rgba(11, 20, 32, 0.9);
+            --bg-panel: rgba(15, 23, 35, 0.92);
+            --bg-panel-strong: rgba(18, 27, 40, 0.98);
+            --bg-elevated: rgba(24, 35, 50, 0.96);
+            --border-color: rgba(148, 163, 184, 0.18);
+            --border-bright: rgba(96, 165, 250, 0.45);
+            --text-main: #e6edf7;
+            --text-soft: #9aa9c3;
+            --text-muted: #71809a;
+            --green: #3ddc97;
+            --green-soft: rgba(61, 220, 151, 0.14);
+            --red: #ff6b6b;
+            --red-soft: rgba(255, 107, 107, 0.14);
+            --blue: #60a5fa;
+            --blue-soft: rgba(96, 165, 250, 0.12);
+            --violet: #8b5cf6;
+            --shadow-soft: 0 18px 60px rgba(2, 6, 23, 0.45);
+            --shadow-card: 0 10px 32px rgba(2, 6, 23, 0.34);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            background:
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 28%),
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.14), transparent 24%),
+                var(--bg-base);
+        }
+
+        body {
+            min-height: 100vh;
+            background: transparent;
+            color: var(--text-main);
+            padding: 32px 20px 48px;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        .container {
+            max-width: 1260px;
+            margin: 0 auto;
+        }
+
+        .app-shell {
+            background: rgba(8, 14, 22, 0.72);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(18px);
+            overflow: hidden;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 28px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(10, 17, 26, 0.62);
+        }
+
+        .brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.35), rgba(61, 220, 151, 0.28));
+            border: 1px solid rgba(96, 165, 250, 0.35);
+            color: var(--text-main);
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-size: 0.68rem;
+            color: var(--text-soft);
+            margin-bottom: 4px;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 8px 12px;
+            background: rgba(15, 23, 35, 0.75);
+            color: var(--text-soft);
+            font-size: 0.78rem;
+        }
+
+        .pulse {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 0 0 rgba(61, 220, 151, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(61, 220, 151, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(61, 220, 151, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(61, 220, 151, 0); }
+        }
+
+        .btn-refresh {
+            border: 1px solid rgba(96, 165, 250, 0.38);
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(59, 130, 246, 0.12));
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .btn-refresh:hover {
+            transform: translateY(-1px);
+            border-color: rgba(96, 165, 250, 0.68);
+        }
+
+        .dashboard {
+            padding: 28px;
+        }
+
+        .hero-panel {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 18px;
+            padding: 24px 22px;
+            border-radius: 22px;
+            border: 1px solid var(--border-color);
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(14, 18, 30, 0.82));
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+        }
+
+        .hero-copy {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-copy h2 {
+            font-size: clamp(2.3rem, 4vw, 4rem);
+            line-height: 1;
+            letter-spacing: -0.07em;
+            margin: 8px 0 14px;
+            color: #f8fbff;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-soft);
+            font-size: 0.92rem;
+        }
+
+        .change-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            border: 1px solid transparent;
+        }
+
+        .change-badge.positive {
+            background: var(--green-soft);
+            color: var(--green);
+            border-color: rgba(61, 220, 151, 0.2);
+        }
+
+        .change-badge.negative {
+            background: var(--red-soft);
+            color: var(--red);
+            border-color: rgba(255, 107, 107, 0.2);
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .metric-card {
+            padding: 18px 18px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            background: rgba(15, 25, 37, 0.86);
+        }
+
+        .metric-card span {
+            display: block;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .metric-card strong {
+            display: block;
+            margin-top: 14px;
+            font-size: clamp(1.1rem, 2vw, 1.6rem);
+            letter-spacing: -0.05em;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 22px;
+        }
+
+        .panel {
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            background: var(--bg-panel);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+        }
+
+        .form-panel {
+            padding: 22px;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .panel-header h3 {
+            font-size: 1.12rem;
+            letter-spacing: -0.04em;
+        }
+
+        .form-panel h2 {
+            font-size: 1.18rem;
+            letter-spacing: -0.04em;
+            margin-bottom: 18px;
+        }
+
+        .form-card {
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            background: rgba(11, 18, 31, 0.7);
+            padding: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group:last-of-type {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-soft);
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .search-input {
+            width: 100%;
+            background: rgba(15, 23, 35, 0.96);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-main);
+            padding: 12px 14px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .search-input:focus {
+            border-color: rgba(96, 165, 250, 0.8);
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.12);
+        }
+
+        .hint-text {
+            font-size: 0.73rem;
+            color: var(--text-muted);
+            margin-top: 7px;
+            line-height: 1.4;
+        }
+
+        .btn-submit {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3ddc97, #21c087);
+            color: #041711;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            padding: 13px 18px;
+            box-shadow: 0 12px 22px rgba(61, 220, 151, 0.24);
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.04);
+        }
+
+        .table-panel {
+            padding: 22px;
+        }
+
+        .search-wrap {
+            position: relative;
+            width: min(270px, 100%);
+        }
+
+        .search-input {
+            background: rgba(15, 23, 35, 0.92);
+            padding-right: 14px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            background: rgba(9, 16, 27, 0.68);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 15px 18px;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            background: rgba(16, 24, 35, 0.9);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tbody td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+            color: var(--text-main);
+            font-size: 0.94rem;
+        }
+
+        tbody tr:hover {
+            background: rgba(96, 165, 250, 0.03);
+        }
+
+        .coin-cell {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .badge.buy {
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .badge.sell {
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        .price-positive {
+            color: var(--green);
+        }
+
+        .price-negative {
+            color: var(--red);
+        }
+
+        .btn-action {
+            background: transparent;
+            border: none;
+            color: var(--red);
+            cursor: pointer;
+            font-weight: 600;
+            padding: 4px 0;
+        }
+
+        .btn-action:hover {
+            text-decoration: underline;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-soft);
+            padding: 26px 18px;
+        }
+
+        @media (max-width: 980px) {
+            .hero-panel,
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 620px) {
+            body {
+                padding: 16px 12px 24px;
+            }
+
+            .topbar,
+            .dashboard {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .topbar-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="app-shell">
+            <header class="topbar">
+                <div class="brand-wrap">
+                    <div class="brand-mark">A</div>
+                    <div>
+                        <div class="eyebrow">Portfolio OS</div>
+                        <h1>Apex Ledger</h1>
+                    </div>
+                </div>
+
+                <div class="topbar-actions">
+                    <div class="status-pill"><span class="pulse"></span> Live market data</div>
+                    <button class="btn-refresh" onclick="fetchLivePortfolio()">Refresh</button>
+                </div>
+            </header>
+
+            <main class="dashboard">
+                <section class="hero-panel">
+                    <div class="hero-copy">
+                        <div class="eyebrow">Portfolio overview</div>
+                        <h2 id="portfolioTotal">$0.00</h2>
+                        <div class="hero-meta">
+                            <span class="change-badge positive" id="portfolioChange">+0.00%</span>
+                            <span id="portfolioSummary">Tracking 0 holdings</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <span>24h P/L</span>
+                            <strong id="dailyPnL">$0.00</strong>
+                        </div>
+                        <div class="metric-card">
+                            <span>Assets</span>
+                            <strong id="assetCount">0</strong>
+                        </div>
+                        <div class="metric-card">
+                            <span>Net flow</span>
+                            <strong id="netFlow">$0.00</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-grid">
+                    <aside class="panel form-panel">
+                        <h2>Add transaction</h2>
+                        <div class="form-card">
+                            <form id="transactionForm" onsubmit="handleAddTransaction(event)">
+                                <div class="form-group">
+                                    <label for="txType">Transaction type</label>
+                                    <select id="txType" required>
+                                        <option value="buy">BUY</option>
+                                        <option value="sell">SELL</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cryptoName">Coin Gecko ID</label>
+                                    <input type="text" id="cryptoName" placeholder="e.g. bitcoin, ethereum" required>
+                                    <div class="hint-text">Use the exact CoinGecko asset ID such as bitcoin, solana, or cardano.</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="pricePerUnit">Purchase price per unit ($)</label>
+                                    <input type="number" step="any" id="pricePerUnit" placeholder="0.00" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input type="number" step="any" id="quantity" placeholder="0.0" required>
+                                </div>
+
+                                <button type="submit" class="btn-submit">Add to portfolio</button>
+                            </form>
+                        </div>
+                    </aside>
+
+                    <section class="panel table-panel">
+                        <div class="panel-header">
+                            <div>
+                                <div class="eyebrow">Portfolio activity</div>
+                                <h3>Holdings & transactions</h3>
+                            </div>
+                            <div class="search-wrap">
+                                <input type="text" id="searchInput" class="search-input" placeholder="Search holdings..." onkeyup="handleSearch()">
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Coin</th>
+                                        <th>Qty</th>
+                                        <th>Buy Price</th>
+                                        <th>Live Price</th>
+                                        <th>Live Value</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionTableBody">
+                                    <tr>
+                                        <td colspan="7" class="empty-state">Loading transactions...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://127.0.0.1:8000";
+
+        function formatCurrency(value) {
+            const numericValue = Number(value) || 0;
+            return `$${numericValue.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        function formatNumber(value) {
+            const numericValue = Number(value) || 0;
+            return numericValue.toLocaleString(undefined, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 4
+            });
+        }
+
+        function safeText(value, fallback = "-") {
+            return value === null || value === undefined || value === "" ? fallback : value;
+        }
+
+        function updateSummaryCards(data) {
+            const total = Number(data?.total_portfolio_value) || 0;
+            const change = Number(data?.portfolio_change_percent) || 0;
+            const dailyPnl = Number(data?.daily_profit_loss) || 0;
+            const netFlow = Number(data?.net_flow) || 0;
+            const assets = Array.isArray(data?.transactions) ? data.transactions.length : 0;
+
+            document.getElementById("portfolioTotal").textContent = formatCurrency(total);
+            document.getElementById("portfolioSummary").textContent = `Tracking ${assets} holding${assets === 1 ? "" : "s"}`;
+            document.getElementById("dailyPnL").textContent = formatCurrency(dailyPnl);
+            document.getElementById("assetCount").textContent = assets;
+            document.getElementById("netFlow").textContent = formatCurrency(netFlow);
+
+            const portfolioChangeEl = document.getElementById("portfolioChange");
+            const isPositive = change >= 0;
+            portfolioChangeEl.textContent = `${isPositive ? "+" : "-"}${Math.abs(change).toFixed(2)}%`;
+            portfolioChangeEl.classList.toggle("positive", isPositive);
+            portfolioChangeEl.classList.toggle("negative", !isPositive);
+        }
+
+        async function fetchLivePortfolio() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/portfolio/live`);
+                const data = await response.json();
+
+                if (response.ok && data) {
+                    updateSummaryCards(data);
+                    renderTable(Array.isArray(data.transactions) ? data.transactions : []);
+                } else {
+                    updateSummaryCards({ total_portfolio_value: 0, portfolio_change_percent: 0, daily_profit_loss: 0, net_flow: 0, transactions: [] });
+                    renderTable([]);
+                    console.error("Failed to load portfolio:", data);
+                }
+            } catch (error) {
+                updateSummaryCards({ total_portfolio_value: 0, portfolio_change_percent: 0, daily_profit_loss: 0, net_flow: 0, transactions: [] });
+                renderTable([]);
+                console.error("Error fetching live portfolio:", error);
+            }
+        }
+
+        function renderTable(transactions) {
+            const tbody = document.getElementById("transactionTableBody");
+            tbody.innerHTML = "";
+
+            if (!transactions || transactions.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="empty-state">No transactions found.</td></tr>`;
+                return;
+            }
+
+            transactions.forEach(tx => {
+                const row = document.createElement("tr");
+                const type = safeText(tx.transaction_type, "buy");
+                const coinName = safeText(tx.crypto_name, "Unknown").toString().replace(/\b\w/g, char => char.toUpperCase());
+                const livePrice = Number(tx.real_time_price_per_unit ?? tx.price_per_unit ?? 0);
+                const buyPrice = Number(tx.purchased_price_per_unit ?? tx.price_per_unit ?? 0);
+                const quantity = Number(tx.quantity ?? 0);
+                const currentValue = Number(tx.current_item_value ?? (quantity * livePrice)) || 0;
+
+                row.innerHTML = `
+                    <td><span class="badge ${type}">${type}</span></td>
+                    <td class="coin-cell">${coinName}</td>
+                    <td>${formatNumber(quantity)}</td>
+                    <td>${formatCurrency(buyPrice)}</td>
+                    <td class="price-positive">${formatCurrency(livePrice)}</td>
+                    <td>${formatCurrency(currentValue)}</td>
+                    <td>
+                        <button class="btn-action" onclick="deleteTransaction(${tx.id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        async function handleAddTransaction(event) {
+            event.preventDefault();
+
+            const payload = {
+                transaction_type: document.getElementById("txType").value,
+                crypto_name: document.getElementById("cryptoName").value.trim().toLowerCase(),
+                price_per_unit: parseFloat(document.getElementById("pricePerUnit").value),
+                quantity: parseFloat(document.getElementById("quantity").value)
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/addtransaction`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    document.getElementById("transactionForm").reset();
+                    fetchLivePortfolio();
+                } else {
+                    alert("Error adding transaction. Make sure backend is running.");
+                }
+            } catch (error) {
+                console.error("Error posting transaction:", error);
+            }
+        }
+
+        async function deleteTransaction(id) {
+            if (!confirm("Are you sure you want to delete this transaction?")) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/delete/${id}`, {
+                    method: "DELETE"
+                });
+
+                if (response.ok) {
+                    fetchLivePortfolio();
+                } else {
+                    alert("Failed to delete transaction.");
+                }
+            } catch (error) {
+                console.error("Error deleting transaction:", error);
+            }
+        }
+
+        async function handleSearch() {
+            const query = document.getElementById("searchInput").value.trim();
+
+            if (query === "") {
+                fetchLivePortfolio();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/search/${query}`);
+                const data = await response.json();
+
+                if (response.ok && Array.isArray(data)) {
+                    const mappedData = data.map(tx => ({
+                        id: tx.id,
+                        crypto_name: tx.crypto_name,
+                        transaction_type: tx.transaction_type,
+                        quantity: tx.quantity,
+                        purchased_price_per_unit: tx.price_per_unit,
+                        real_time_price_per_unit: tx.price_per_unit,
+                        current_item_value: tx.quantity * tx.price_per_unit
+                    }));
+                    renderTable(mappedData);
+                } else {
+                    renderTable([]);
+                }
+            } catch (error) {
+                console.error("Error searching transactions:", error);
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", fetchLivePortfolio);
+    </script>
+</body>
+</html>

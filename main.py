@@ -1,12 +1,16 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 import Database
+import auth
 from model import Transaction 
 from Database import session
 from sqlalchemy.orm import Session
 import httpx
+import os
 
 app = FastAPI()
+app.include_router(auth.router)
+COINGECKO_API_KEY = os.environ.get("COINGECKO_API_KEY", "")
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,21 +30,35 @@ def get_db():
 
 
 @app.post("/addtransaction")
-def add_transaction(transaction: Transaction, db: Session = Depends(get_db)):
-    db.add(Database.Transaction(**transaction.model_dump()))
+def add_transaction(
+    transaction: Transaction,
+    db: Session = Depends(get_db),
+    current_user: Database.User = Depends(auth.get_current_user),
+):
+    db.add(Database.Transaction(**transaction.model_dump(), user_id=current_user.id))
     db.commit()
     return {"message": "Transaction added successfully"}
 
 
 @app.get("/all")
-def get_portfolio(db: Session = Depends(get_db)):
-    transactions = db.query(Database.Transaction).all()
+def get_portfolio(
+    db: Session = Depends(get_db),
+    current_user: Database.User = Depends(auth.get_current_user),
+):
+    transactions = db.query(Database.Transaction).filter(
+        Database.Transaction.user_id == current_user.id
+    ).all()
     return transactions
 
 
 @app.get("/search/{crypto_name}")
-def get_by_name(crypto_name: str, db: Session = Depends(get_db)):
+def get_by_name(
+    crypto_name: str,
+    db: Session = Depends(get_db),
+    current_user: Database.User = Depends(auth.get_current_user),
+):
     transactions = db.query(Database.Transaction).filter(
+        Database.Transaction.user_id == current_user.id,
         Database.Transaction.crypto_name.ilike(f"%{crypto_name}%")
     ).all()
 
@@ -57,8 +75,16 @@ def get_by_name(crypto_name: str, db: Session = Depends(get_db)):
 
 
 @app.put("/update/{crypto_name}")
-def update(crypto_name: str, newtransaction: Transaction, db: Session = Depends(get_db)):
-    transaction = db.query(Database.Transaction).filter(Database.Transaction.crypto_name == crypto_name).first()
+def update(
+    crypto_name: str,
+    newtransaction: Transaction,
+    db: Session = Depends(get_db),
+    current_user: Database.User = Depends(auth.get_current_user),
+):
+    transaction = db.query(Database.Transaction).filter(
+        Database.Transaction.crypto_name == crypto_name,
+        Database.Transaction.user_id == current_user.id,
+    ).first()
     if transaction:
         transaction.transaction_type = newtransaction.transaction_type
         transaction.crypto_name = newtransaction.crypto_name
@@ -71,8 +97,15 @@ def update(crypto_name: str, newtransaction: Transaction, db: Session = Depends(
 
 
 @app.delete("/delete/{id}")
-def deleteTransaction(id: int, db: Session = Depends(get_db)):
-    transaction = db.query(Database.Transaction).filter(Database.Transaction.id == id).first()
+def deleteTransaction(
+    id: int,
+    db: Session = Depends(get_db),
+    current_user: Database.User = Depends(auth.get_current_user),
+):
+    transaction = db.query(Database.Transaction).filter(
+        Database.Transaction.id == id,
+        Database.Transaction.user_id == current_user.id,
+    ).first()
     if transaction:
         db.delete(transaction)
         db.commit()
@@ -82,8 +115,13 @@ def deleteTransaction(id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/portfolio/live")
-async def get_portfolio(db: Session = Depends(get_db)):
-    transactions = db.query(Database.Transaction).all()
+async def get_portfolio(
+    db: Session = Depends(get_db),
+    current_user: Database.User = Depends(auth.get_current_user),
+):
+    transactions = db.query(Database.Transaction).filter(
+        Database.Transaction.user_id == current_user.id
+    ).all()
 
     if not transactions:
         return {

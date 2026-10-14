@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Portfolio Tracker</title>
+    <title>Apex Ledger | Crypto Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -491,12 +491,1179 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        :root {
+            color-scheme: dark;
+            --bg-base: #080808;
+            --bg-surface: #101010;
+            --bg-panel: #111111;
+            --bg-panel-strong: #171717;
+            --bg-elevated: #1c1c1c;
+            --border-color: #292929;
+            --border-bright: #666666;
+            --text-main: #f5f5f5;
+            --text-soft: #a1a1a1;
+            --text-muted: #737373;
+            --green: #f5f5f5;
+            --green-soft: #202020;
+            --red: #a1a1a1;
+            --red-soft: #1b1b1b;
+            --blue: #f5f5f5;
+            --blue-soft: #202020;
+            --violet: #d4d4d4;
+            --shadow-soft: 0 28px 90px rgba(0, 0, 0, 0.6);
+            --shadow-card: 0 12px 36px rgba(0, 0, 0, 0.22);
+        }
+
+        html {
+            background:
+                radial-gradient(ellipse at 50% -30%, rgba(255, 255, 255, 0.08), transparent 55%),
+                #080808;
+        }
+
+        body {
+            padding: 40px 24px 56px;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 2px solid #d4d4d4;
+            outline-offset: 3px;
+        }
+
+        .container {
+            max-width: 1440px;
+        }
+
+        .app-shell {
+            background: rgba(12, 12, 12, 0.94);
+            border-color: #292929;
+            border-radius: 20px;
+            backdrop-filter: blur(22px);
+        }
+
+        .topbar {
+            min-height: 86px;
+            padding: 18px 30px;
+            background: rgba(15, 15, 15, 0.9);
+            border-color: #242424;
+        }
+
+        .brand-wrap {
+            gap: 13px;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: linear-gradient(145deg, #f5f5f5, #a3a3a3);
+            border: 1px solid #f5f5f5;
+            color: #090909;
+            box-shadow: 0 4px 18px rgba(255, 255, 255, 0.1);
+        }
+
+        .eyebrow {
+            color: #858585;
+            font-size: 0.67rem;
+            letter-spacing: 0.16em;
+        }
+
+        h1 {
+            color: #f5f5f5;
+            font-size: 1.16rem;
+        }
+
+        .topbar-actions {
+            gap: 11px;
+        }
+
+        .status-pill {
+            padding: 8px 11px;
+            background: #141414;
+            border-color: #292929;
+            color: #a3a3a3;
+            font-size: 0.74rem;
+        }
+
+        .pulse {
+            width: 7px;
+            height: 7px;
+            background: #d4d4d4;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.07);
+            animation: none;
+        }
+
+        .btn-refresh {
+            padding: 9px 14px;
+            background: #f5f5f5;
+            border: 1px solid #f5f5f5;
+            border-radius: 10px;
+            color: #090909;
+            transition: background-color 0.18s ease, transform 0.18s ease;
+        }
+
+        .btn-refresh:hover {
+            background: #d4d4d4;
+            border-color: #d4d4d4;
+            transform: translateY(-1px);
+        }
+
+        .dashboard {
+            padding: 30px;
+        }
+
+        .hero-panel {
+            grid-template-columns: minmax(0, 1.1fr) minmax(400px, 1fr);
+            gap: 28px;
+            padding: 32px;
+            margin-bottom: 22px;
+            border-color: #2b2b2b;
+            border-radius: 16px;
+            background:
+                linear-gradient(115deg, rgba(255, 255, 255, 0.035), transparent 48%),
+                #111111;
+            box-shadow: none;
+        }
+
+        .hero-copy h2 {
+            margin: 12px 0 16px;
+            color: #fafafa;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.075em;
+        }
+
+        .hero-meta {
+            gap: 12px;
+            color: #929292;
+            font-size: 0.84rem;
+        }
+
+        .change-badge {
+            padding: 6px 10px;
+            border-radius: 7px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .change-badge.positive,
+        .change-badge.negative {
+            background: #202020;
+            border-color: #303030;
+            color: #e5e5e5;
+        }
+
+        .metric-grid {
+            gap: 10px;
+            align-self: stretch;
+        }
+
+        .metric-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 112px;
+            padding: 17px;
+            border-color: #292929;
+            border-radius: 12px;
+            background: #151515;
+        }
+
+        .metric-card span {
+            color: #858585;
+            font-size: 0.66rem;
+            letter-spacing: 0.12em;
+        }
+
+        .metric-card strong {
+            margin-top: 18px;
+            color: #eeeeee;
+            font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.045em;
+        }
+
+        .content-grid {
+            grid-template-columns: minmax(290px, 0.34fr) minmax(0, 1fr);
+            gap: 22px;
+        }
+
+        .panel {
+            border-color: #292929;
+            border-radius: 16px;
+            background: #101010;
+            box-shadow: none;
+        }
+
+        .form-panel,
+        .table-panel {
+            padding: 22px;
+        }
+
+        .form-panel h2,
+        .panel-header h3 {
+            color: #f1f1f1;
+            letter-spacing: -0.045em;
+        }
+
+        .panel-header {
+            margin-bottom: 20px;
+        }
+
+        .panel-header h3,
+        .form-panel h2 {
+            font-size: 1.08rem;
+        }
+
+        .form-card {
+            padding: 18px;
+            border-color: #252525;
+            border-radius: 12px;
+            background: #141414;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            color: #a1a1a1;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .search-input {
+            min-height: 44px;
+            padding: 11px 13px;
+            border-color: #303030;
+            border-radius: 9px;
+            background: #0d0d0d;
+            color: #eeeeee;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .form-group input::placeholder,
+        .search-input::placeholder {
+            color: #666666;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .search-input:focus {
+            border-color: #777777;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.07);
+        }
+
+        .hint-text {
+            color: #737373;
+            line-height: 1.55;
+        }
+
+        .btn-submit {
+            min-height: 46px;
+            border: 1px solid #f5f5f5;
+            border-radius: 9px;
+            background: #f5f5f5;
+            color: #090909;
+            box-shadow: none;
+            font-weight: 700;
+            transition: background-color 0.18s ease, transform 0.18s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            filter: none;
+            background: #d4d4d4;
+        }
+
+        .search-wrap {
+            width: min(260px, 100%);
+        }
+
+        .table-container {
+            border-color: #292929;
+            border-radius: 11px;
+            background: #0d0d0d;
+        }
+
+        table {
+            min-width: 700px;
+        }
+
+        thead th {
+            padding: 14px 15px;
+            border-color: #292929;
+            background: #151515;
+            color: #858585;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 15px;
+            border-color: #222222;
+            color: #d4d4d4;
+            font-size: 0.86rem;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            transition: background-color 0.16s ease;
+        }
+
+        tbody tr:hover {
+            background: #171717;
+        }
+
+        .coin-cell {
+            color: #f5f5f5;
+            font-weight: 600;
+        }
+
+        .badge {
+            min-width: 48px;
+            padding: 5px 8px;
+            border: 1px solid #303030;
+            border-radius: 6px;
+            background: #1c1c1c;
+            color: #d4d4d4;
+            font-size: 0.64rem;
+        }
+
+        .badge.buy,
+        .badge.sell {
+            background: #1c1c1c;
+            color: #d4d4d4;
+        }
+
+        .price-positive,
+        .price-negative {
+            color: #d4d4d4;
+        }
+
+        .btn-action {
+            padding: 5px 8px;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            color: #a3a3a3;
+            font-size: 0.78rem;
+            transition: color 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+        }
+
+        .btn-action:hover {
+            border-color: #555555;
+            background: #1a1a1a;
+            color: #f5f5f5;
+            text-decoration: none;
+        }
+
+        .empty-state {
+            color: #929292;
+            white-space: normal;
+        }
+
+        @media (max-width: 980px) {
+            body {
+                padding: 24px 18px 36px;
+            }
+
+            .hero-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 620px) {
+            body {
+                padding: 12px 10px 20px;
+            }
+
+            .app-shell {
+                border-radius: 14px;
+            }
+
+            .topbar {
+                padding-top: 16px;
+                padding-bottom: 16px;
+            }
+
+            .dashboard {
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+
+            .hero-panel {
+                gap: 24px;
+                padding: 23px 18px;
+                border-radius: 13px;
+            }
+
+            .metric-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .metric-card {
+                min-height: 96px;
+                padding: 12px 10px;
+            }
+
+            .metric-card span {
+                font-size: 0.58rem;
+                letter-spacing: 0.08em;
+            }
+
+            .metric-card strong {
+                font-size: 0.95rem;
+                overflow-wrap: anywhere;
+            }
+
+            .panel-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .search-wrap {
+                width: 100%;
+            }
+
+            .form-panel,
+            .table-panel {
+                padding: 17px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .topbar-actions {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-card {
+                min-height: 82px;
+            }
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        .screen-view {
+            display: none !important;
+        }
+
+        .screen-view.is-active {
+            display: block !important;
+        }
+
+        .landing {
+            min-height: min(820px, calc(100vh - 80px));
+            margin: 0 auto;
+            overflow: hidden;
+            border: 1px solid #292929;
+            border-radius: 20px;
+            background:
+                radial-gradient(ellipse at 76% 42%, rgba(255, 255, 255, 0.055), transparent 35%),
+                #0b0b0b;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .landing-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 82px;
+            padding: 18px 34px;
+            border-bottom: 1px solid #222222;
+        }
+
+        .landing-nav .brand-mark {
+            width: 38px;
+            height: 38px;
+        }
+
+        .landing-nav h1 {
+            font-size: 1.05rem;
+        }
+
+        .landing-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 23px;
+        }
+
+        .nav-link,
+        .text-link {
+            border: 0;
+            background: transparent;
+            color: #a3a3a3;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: color 0.18s ease;
+        }
+
+        .nav-link:hover,
+        .text-link:hover {
+            color: #ffffff;
+        }
+
+        .nav-cta,
+        .landing-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: 1px solid #f5f5f5;
+            background: #f5f5f5;
+            color: #090909;
+            cursor: pointer;
+            font-size: 0.84rem;
+            font-weight: 700;
+            transition: transform 0.18s ease, background-color 0.18s ease;
+        }
+
+        .nav-cta {
+            min-height: 40px;
+            padding: 0 16px;
+            border-radius: 8px;
+        }
+
+        .nav-cta:hover,
+        .landing-primary:hover {
+            transform: translateY(-2px);
+            background: #d4d4d4;
+        }
+
+        .landing-main {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+            align-items: center;
+            gap: 30px;
+            min-height: 570px;
+            padding: 56px 7.4% 48px;
+        }
+
+        .landing-copy {
+            position: relative;
+            z-index: 1;
+            max-width: 570px;
+        }
+
+        .landing-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            color: #a3a3a3;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .landing-kicker::before {
+            width: 22px;
+            height: 1px;
+            background: #a3a3a3;
+            content: "";
+        }
+
+        .landing-copy h2 {
+            max-width: 620px;
+            color: #f5f5f5;
+            font-size: clamp(3.25rem, 6.5vw, 6.1rem);
+            font-weight: 500;
+            line-height: 0.98;
+            letter-spacing: -0.085em;
+        }
+
+        .landing-copy h2 span {
+            color: #777777;
+        }
+
+        .landing-description {
+            max-width: 425px;
+            margin-top: 24px;
+            color: #929292;
+            font-size: 0.98rem;
+            line-height: 1.75;
+        }
+
+        .landing-actions {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            margin-top: 32px;
+        }
+
+        .landing-primary {
+            min-height: 49px;
+            padding: 0 19px;
+            border-radius: 9px;
+        }
+
+        .landing-primary span {
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        .landing-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 34px;
+            color: #737373;
+            font-size: 0.73rem;
+        }
+
+        .landing-note-mark {
+            display: grid;
+            width: 19px;
+            height: 19px;
+            place-items: center;
+            border: 1px solid #444444;
+            border-radius: 50%;
+            color: #bdbdbd;
+            font-size: 0.65rem;
+        }
+
+        .landing-visual {
+            position: relative;
+            display: grid;
+            min-height: 435px;
+            place-items: center;
+            isolation: isolate;
+        }
+
+        .landing-visual::before,
+        .landing-visual::after {
+            position: absolute;
+            z-index: -1;
+            border: 1px solid rgba(255, 255, 255, 0.055);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .landing-visual::before {
+            width: min(35vw, 440px);
+            aspect-ratio: 1;
+        }
+
+        .landing-visual::after {
+            width: min(27vw, 340px);
+            aspect-ratio: 1;
+        }
+
+        .visual-grid {
+            position: absolute;
+            z-index: -2;
+            inset: 4% -10%;
+            opacity: 0.24;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+            background-size: 38px 38px;
+            mask-image: radial-gradient(ellipse at center, #000 10%, transparent 70%);
+        }
+
+        .orbit {
+            position: absolute;
+            width: min(42vw, 510px);
+            aspect-ratio: 1;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            transform: rotate(-27deg) scaleY(0.43);
+        }
+
+        .orbit-two {
+            width: min(46vw, 560px);
+            border-color: rgba(255, 255, 255, 0.065);
+            transform: rotate(43deg) scaleY(0.38);
+        }
+
+        .orbit-node {
+            position: absolute;
+            top: 19%;
+            right: 21%;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #f5f5f5;
+            box-shadow: 0 0 24px rgba(255, 255, 255, 0.65);
+        }
+
+        .preview-card {
+            width: min(100%, 370px);
+            padding: 21px;
+            border: 1px solid #373737;
+            border-radius: 13px;
+            background: linear-gradient(145deg, rgba(31, 31, 31, 0.97), rgba(15, 15, 15, 0.97));
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+            transform: rotate(-3deg);
+        }
+
+        .preview-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #292929;
+        }
+
+        .preview-label,
+        .preview-state {
+            color: #858585;
+            font-size: 0.62rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .preview-state {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #bdbdbd;
+        }
+
+        .preview-state::before {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #d4d4d4;
+            content: "";
+        }
+
+        .preview-balance-label {
+            margin-top: 21px;
+            color: #929292;
+            font-size: 0.75rem;
+        }
+
+        .preview-balance {
+            margin-top: 7px;
+            color: #f5f5f5;
+            font-size: 2.25rem;
+            font-weight: 500;
+            letter-spacing: -0.07em;
+        }
+
+        .preview-chart {
+            display: block;
+            width: 100%;
+            height: 108px;
+            margin: 15px 0 6px;
+            overflow: visible;
+        }
+
+        .preview-chart path {
+            fill: none;
+            stroke: #ededed;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2;
+        }
+
+        .preview-chart .chart-fill {
+            fill: url(#chartFade);
+            stroke: none;
+        }
+
+        .preview-chart line {
+            stroke: #292929;
+            stroke-dasharray: 3 6;
+        }
+
+        .preview-assets {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .preview-asset {
+            padding: 12px;
+            border: 1px solid #2b2b2b;
+            border-radius: 8px;
+            background: #141414;
+        }
+
+        .preview-asset span {
+            display: block;
+            color: #858585;
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .preview-asset strong {
+            display: block;
+            margin-top: 7px;
+            color: #e5e5e5;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .landing-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid #222222;
+        }
+
+        .landing-feature {
+            min-height: 120px;
+            padding: 25px 30px;
+        }
+
+        .landing-feature + .landing-feature {
+            border-left: 1px solid #222222;
+        }
+
+        .feature-index {
+            display: block;
+            margin-bottom: 14px;
+            color: #666666;
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+        }
+
+        .landing-feature h3 {
+            color: #e5e5e5;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .landing-feature p {
+            margin-top: 7px;
+            color: #777777;
+            font-size: 0.76rem;
+            line-height: 1.5;
+        }
+
+        .auth-view {
+            width: min(100%, 440px);
+            margin: clamp(24px, 9vh, 100px) auto;
+            padding: 30px;
+            border: 1px solid #292929;
+            border-radius: 16px;
+            background: #101010;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .auth-brand {
+            margin-bottom: 30px;
+        }
+
+        .auth-back {
+            margin-bottom: 22px;
+        }
+
+        .auth-view h2 {
+            margin: 8px 0;
+            color: #f5f5f5;
+            font-size: 1.8rem;
+            letter-spacing: -0.06em;
+        }
+
+        .auth-description {
+            margin-bottom: 22px;
+            color: #929292;
+            font-size: 0.88rem;
+            line-height: 1.55;
+        }
+
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            margin-bottom: 22px;
+            padding: 4px;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            background: #0b0b0b;
+        }
+
+        .auth-tab {
+            padding: 10px;
+            border: 0;
+            border-radius: 7px;
+            background: transparent;
+            color: #858585;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .auth-tab.active {
+            background: #242424;
+            color: #f5f5f5;
+        }
+
+        .auth-view .form-group {
+            margin-bottom: 16px;
+        }
+
+        .auth-message {
+            min-height: 20px;
+            margin: 0 0 12px;
+            color: #bdbdbd;
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .account-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .account-name {
+            color: #a3a3a3;
+            font-size: 0.78rem;
+        }
+
+        .btn-logout {
+            padding: 8px 11px;
+            border: 1px solid #333333;
+            border-radius: 9px;
+            background: #151515;
+            color: #d4d4d4;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .btn-logout:hover {
+            border-color: #555555;
+            background: #1c1c1c;
+        }
+
+        @media (max-width: 620px) {
+            .landing {
+                min-height: calc(100vh - 24px);
+                border-radius: 14px;
+            }
+
+            .landing-nav {
+                min-height: 70px;
+                padding: 14px 17px;
+            }
+
+            .landing-nav-actions {
+                gap: 14px;
+            }
+
+            .landing-nav .nav-link {
+                font-size: 0.75rem;
+            }
+
+            .landing-nav .nav-cta {
+                min-height: 36px;
+                padding: 0 11px;
+                font-size: 0.75rem;
+            }
+
+            .landing-main {
+                grid-template-columns: 1fr;
+                gap: 0;
+                padding: 55px 23px 25px;
+            }
+
+            .landing-copy h2 {
+                font-size: clamp(3.1rem, 14vw, 5.2rem);
+            }
+
+            .landing-description {
+                font-size: 0.91rem;
+            }
+
+            .landing-visual {
+                min-height: 350px;
+                margin-top: 10px;
+            }
+
+            .landing-visual::before {
+                width: min(76vw, 360px);
+            }
+
+            .landing-visual::after {
+                width: min(60vw, 280px);
+            }
+
+            .orbit {
+                width: min(90vw, 410px);
+            }
+
+            .orbit-two {
+                width: min(96vw, 440px);
+            }
+
+            .preview-card {
+                width: min(100%, 340px);
+            }
+
+            .landing-features {
+                grid-template-columns: 1fr;
+            }
+
+            .landing-feature {
+                min-height: 0;
+                padding: 19px 23px;
+            }
+
+            .landing-feature + .landing-feature {
+                border-top: 1px solid #222222;
+                border-left: 0;
+            }
+
+            .auth-view {
+                margin-top: 7vh;
+                padding: 23px;
+            }
+
+            .account-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="app-shell">
+        <section class="landing screen-view is-active" id="landingView">
+            <header class="landing-nav">
+                <div class="brand-wrap">
+                    <div class="brand-mark">A</div>
+                    <div>
+                        <div class="eyebrow">Portfolio OS</div>
+                        <h1>Apex Ledger</h1>
+                    </div>
+                </div>
+                <nav class="landing-nav-actions" aria-label="Main navigation">
+                    <button class="nav-link" type="button" onclick="openAuth('login')">Log in</button>
+                    <button class="nav-cta" type="button" onclick="openAuth('signup')">Get started <span aria-hidden="true">↗</span></button>
+                </nav>
+            </header>
+
+            <main class="landing-main">
+                <div class="landing-copy">
+                    <div class="landing-kicker">A clearer view of crypto</div>
+                    <h2>Your crypto.<br><span>One clear</span><br>picture.</h2>
+                    <p class="landing-description">A focused space to track your digital assets, follow live market value, and understand your portfolio without the noise.</p>
+                    <div class="landing-actions">
+                        <button class="landing-primary" type="button" onclick="openAuth('signup')">Build your portfolio <span aria-hidden="true">↗</span></button>
+                        <button class="text-link" type="button" onclick="openAuth('login')">I have an account</button>
+                    </div>
+                    <div class="landing-note"><span class="landing-note-mark" aria-hidden="true">✓</span> Private account. Your portfolio, organized.</div>
+                </div>
+
+                <div class="landing-visual" aria-label="Abstract preview of the Apex Ledger portfolio dashboard" role="img">
+                    <div class="visual-grid"></div>
+                    <div class="orbit"></div>
+                    <div class="orbit orbit-two"></div>
+                    <div class="orbit-node"></div>
+                    <div class="preview-card" aria-hidden="true">
+                        <div class="preview-top">
+                            <span class="preview-label">Portfolio overview</span>
+                            <span class="preview-state">Dashboard preview</span>
+                        </div>
+                        <div class="preview-balance-label">Your assets, at a glance</div>
+                        <div class="preview-balance">One view. Every move.</div>
+                        <svg class="preview-chart" viewBox="0 0 340 108" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="chartFade" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+                                    <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <line x1="0" y1="27" x2="340" y2="27"/>
+                            <line x1="0" y1="60" x2="340" y2="60"/>
+                            <line x1="0" y1="93" x2="340" y2="93"/>
+                            <path class="chart-fill" d="M0 83 C25 76 35 84 55 65 S89 69 108 52 S141 63 160 44 S187 58 207 37 S240 45 258 29 S291 42 309 17 S329 24 340 12 V108 H0 Z"/>
+                            <path d="M0 83 C25 76 35 84 55 65 S89 69 108 52 S141 63 160 44 S187 58 207 37 S240 45 258 29 S291 42 309 17 S329 24 340 12"/>
+                        </svg>
+                        <div class="preview-assets">
+                            <div class="preview-asset"><span>Market data</span><strong>Live pricing</strong></div>
+                            <div class="preview-asset"><span>Portfolio</span><strong>Your holdings</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="landing-features">
+                <article class="landing-feature">
+                    <span class="feature-index">01 / CLARITY</span>
+                    <h3>Everything in one view</h3>
+                    <p>See your transactions and portfolio value together.</p>
+                </article>
+                <article class="landing-feature">
+                    <span class="feature-index">02 / SIGNAL</span>
+                    <h3>Live market context</h3>
+                    <p>Follow current asset prices as your portfolio moves.</p>
+                </article>
+                <article class="landing-feature">
+                    <span class="feature-index">03 / CONTROL</span>
+                    <h3>Built around your account</h3>
+                    <p>Sign in to keep your portfolio activity personal.</p>
+                </article>
+            </footer>
+        </section>
+
+        <section class="auth-view screen-view" id="authView" hidden>
+            <button class="text-link auth-back" type="button" onclick="showLanding()">← Back to home</button>
+            <div class="brand-wrap auth-brand">
+                <div class="brand-mark">A</div>
+                <div>
+                    <div class="eyebrow">Portfolio OS</div>
+                    <h1>Apex Ledger</h1>
+                </div>
+            </div>
+            <div class="eyebrow" id="authEyebrow">Welcome back</div>
+            <h2 id="authTitle">Sign in to your wallet</h2>
+            <p class="auth-description" id="authDescription">Your portfolio, secured in one place.</p>
+            <div class="auth-tabs" role="tablist" aria-label="Account access">
+                <button class="auth-tab active" id="loginTab" type="button" onclick="setAuthMode('login')">Log in</button>
+                <button class="auth-tab" id="signupTab" type="button" onclick="setAuthMode('signup')">Create account</button>
+            </div>
+            <form id="authForm" onsubmit="handleAuthSubmit(event)">
+                <div class="form-group" id="emailGroup" hidden>
+                    <label for="authEmail">Email</label>
+                    <input type="email" id="authEmail" autocomplete="email" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="authUsername">Username</label>
+                    <input type="text" id="authUsername" autocomplete="username" minlength="3" maxlength="64" required placeholder="Your username">
+                </div>
+                <div class="form-group">
+                    <label for="authPassword">Password</label>
+                    <input type="password" id="authPassword" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters">
+                </div>
+                <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+                <button type="submit" class="btn-submit" id="authSubmit">Log in</button>
+            </form>
+        </section>
+
+        <div class="app-shell screen-view" id="appShell" hidden>
             <header class="topbar">
                 <div class="brand-wrap">
                     <div class="brand-mark">A</div>
@@ -509,6 +1676,10 @@
                 <div class="topbar-actions">
                     <div class="status-pill"><span class="pulse"></span> Live market data</div>
                     <button class="btn-refresh" onclick="fetchLivePortfolio()">Refresh</button>
+                    <div class="account-actions">
+                        <span class="account-name" id="accountName"></span>
+                        <button class="btn-logout" type="button" onclick="logout()">Log out</button>
+                    </div>
                 </div>
             </header>
 
@@ -612,6 +1783,151 @@
 
     <script>
         const API_BASE_URL = "http://127.0.0.1:8000";
+        const AUTH_TOKEN_KEY = "apex-ledger-token";
+        const SCREEN_IDS = ["landingView", "authView", "appShell"];
+        let authMode = "login";
+
+        function activateScreen(screenId) {
+            SCREEN_IDS.forEach(id => {
+                const screen = document.getElementById(id);
+                const isActive = id === screenId;
+                screen.hidden = !isActive;
+                screen.classList.toggle("is-active", isActive);
+            });
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function setAuthMode(mode) {
+            authMode = mode;
+            const isSignup = mode === "signup";
+            document.getElementById("authEyebrow").textContent = isSignup ? "Get started" : "Welcome back";
+            document.getElementById("authTitle").textContent = isSignup ? "Create your wallet" : "Sign in to your wallet";
+            document.getElementById("authDescription").textContent = isSignup
+                ? "Create an account to keep your portfolio private and in sync."
+                : "Your portfolio, secured in one place.";
+            document.getElementById("emailGroup").hidden = !isSignup;
+            document.getElementById("authEmail").required = isSignup;
+            document.getElementById("authPassword").autocomplete = isSignup ? "new-password" : "current-password";
+            document.getElementById("loginTab").classList.toggle("active", !isSignup);
+            document.getElementById("signupTab").classList.toggle("active", isSignup);
+            document.getElementById("authSubmit").textContent = isSignup ? "Create account" : "Log in";
+            document.getElementById("authMessage").textContent = "";
+        }
+
+        function openAuth(mode) {
+            activateScreen("authView");
+            setAuthMode(mode);
+        }
+
+        function showLanding() {
+            activateScreen("landingView");
+        }
+
+        function showAuth(message = "") {
+            localStorage.removeItem(AUTH_TOKEN_KEY);
+            activateScreen("authView");
+            document.getElementById("authMessage").textContent = message;
+        }
+
+        function showApp(user) {
+            activateScreen("appShell");
+            document.getElementById("accountName").textContent = user.username;
+            fetchLivePortfolio();
+        }
+
+        async function authorizedFetch(path, options = {}) {
+            const token = localStorage.getItem(AUTH_TOKEN_KEY);
+            const headers = new Headers(options.headers || {});
+            if (token) headers.set("Authorization", `Bearer ${token}`);
+            const response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers });
+            if (response.status === 401) {
+                showAuth("Your session has expired. Please log in again.");
+            }
+            return response;
+        }
+
+        async function handleAuthSubmit(event) {
+            event.preventDefault();
+            const username = document.getElementById("authUsername").value.trim();
+            const password = document.getElementById("authPassword").value;
+            const message = document.getElementById("authMessage");
+            const submit = document.getElementById("authSubmit");
+
+            message.textContent = "";
+            submit.disabled = true;
+            submit.textContent = authMode === "signup" ? "Creating account..." : "Signing in...";
+
+            try {
+                if (authMode === "signup") {
+                    const registerResponse = await fetch(`${API_BASE_URL}/auth/register`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            username,
+                            email: document.getElementById("authEmail").value.trim(),
+                            password
+                        })
+                    });
+                    const registerData = await registerResponse.json();
+                    if (!registerResponse.ok) {
+                        throw new Error(registerData.detail || "Unable to create your account.");
+                    }
+                }
+
+                const tokenResponse = await fetch(`${API_BASE_URL}/auth/token`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams({ username, password })
+                });
+                const tokenData = await tokenResponse.json();
+                if (!tokenResponse.ok) {
+                    throw new Error(tokenData.detail || "Unable to log in.");
+                }
+
+                localStorage.setItem(AUTH_TOKEN_KEY, tokenData.access_token);
+                const userResponse = await authorizedFetch("/auth/me");
+                const userData = await userResponse.json();
+                if (!userResponse.ok) {
+                    throw new Error(userData.detail || "Unable to load your account.");
+                }
+                document.getElementById("authForm").reset();
+                showApp(userData);
+            } catch (error) {
+                message.textContent = error instanceof TypeError
+                    ? "Could not connect to the wallet service. Check that the backend is running."
+                    : error.message;
+            } finally {
+                submit.disabled = false;
+                submit.textContent = authMode === "signup" ? "Create account" : "Log in";
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem(AUTH_TOKEN_KEY);
+            document.getElementById("authForm").reset();
+            setAuthMode("login");
+            showLanding();
+        }
+
+        async function restoreSession() {
+            if (!localStorage.getItem(AUTH_TOKEN_KEY)) {
+                showLanding();
+                return;
+            }
+
+            try {
+                const response = await authorizedFetch("/auth/me");
+                if (!response.ok) {
+                    showAuth("Your session has expired. Please log in again.");
+                    return;
+                }
+
+                showApp(await response.json());
+            } catch (error) {
+                console.error("Error restoring session:", error);
+                showLanding();
+            }
+        }
 
         function formatCurrency(value) {
             const numericValue = Number(value) || 0;
@@ -655,7 +1971,7 @@
 
         async function fetchLivePortfolio() {
             try {
-                const response = await fetch(`${API_BASE_URL}/portfolio/live`);
+                const response = await authorizedFetch("/portfolio/live");
                 const data = await response.json();
 
                 if (response.ok && data) {
@@ -691,17 +2007,29 @@
                 const quantity = Number(tx.quantity ?? 0);
                 const currentValue = Number(tx.current_item_value ?? (quantity * livePrice)) || 0;
 
-                row.innerHTML = `
-                    <td><span class="badge ${type}">${type}</span></td>
-                    <td class="coin-cell">${coinName}</td>
-                    <td>${formatNumber(quantity)}</td>
-                    <td>${formatCurrency(buyPrice)}</td>
-                    <td class="price-positive">${formatCurrency(livePrice)}</td>
-                    <td>${formatCurrency(currentValue)}</td>
-                    <td>
-                        <button class="btn-action" onclick="deleteTransaction(${tx.id})">Delete</button>
-                    </td>
-                `;
+                const typeCell = row.insertCell();
+                const badge = document.createElement("span");
+                badge.className = `badge ${type === "sell" ? "sell" : "buy"}`;
+                badge.textContent = type;
+                typeCell.appendChild(badge);
+
+                const coinCell = row.insertCell();
+                coinCell.className = "coin-cell";
+                coinCell.textContent = coinName;
+
+                row.insertCell().textContent = formatNumber(quantity);
+                row.insertCell().textContent = formatCurrency(buyPrice);
+                const livePriceCell = row.insertCell();
+                livePriceCell.className = "price-positive";
+                livePriceCell.textContent = formatCurrency(livePrice);
+                row.insertCell().textContent = formatCurrency(currentValue);
+
+                const actionCell = row.insertCell();
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "btn-action";
+                deleteButton.textContent = "Delete";
+                deleteButton.addEventListener("click", () => deleteTransaction(tx.id));
+                actionCell.appendChild(deleteButton);
                 tbody.appendChild(row);
             });
         }
@@ -717,7 +2045,7 @@
             };
 
             try {
-                const response = await fetch(`${API_BASE_URL}/addtransaction`, {
+                const response = await authorizedFetch("/addtransaction", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
@@ -738,7 +2066,7 @@
             if (!confirm("Are you sure you want to delete this transaction?")) return;
 
             try {
-                const response = await fetch(`${API_BASE_URL}/delete/${id}`, {
+                const response = await authorizedFetch(`/delete/${id}`, {
                     method: "DELETE"
                 });
 
@@ -761,7 +2089,7 @@
             }
 
             try {
-                const response = await fetch(`${API_BASE_URL}/search/${query}`);
+                const response = await authorizedFetch(`/search/${encodeURIComponent(query)}`);
                 const data = await response.json();
 
                 if (response.ok && Array.isArray(data)) {
@@ -783,7 +2111,7 @@
             }
         }
 
-        window.addEventListener("DOMContentLoaded", fetchLivePortfolio);
+        window.addEventListener("DOMContentLoaded", restoreSession);
     </script>
 </body>
 </html>
